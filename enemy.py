@@ -3,7 +3,7 @@ class Enemy:
         self.name = name
         self.health = health
         self.max_health = health
-        self.attack = attack  # Default attack value for enemies
+        self.attack = attack
 
     def __str__(self):
         return (
