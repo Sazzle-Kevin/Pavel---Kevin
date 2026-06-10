@@ -4,6 +4,7 @@ class Player:
         self.health = health
         self.max_health = health
         self.attack = attack
+        self.weapon = 0
 
     def __str__(self):
         return (
@@ -25,3 +26,6 @@ class Player:
         self.health += amount
         if self.health > self.max_health:
             self.health = self.max_health
+
+    def use_weapon(self, attack):
+        self.weapon = attack

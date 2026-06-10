@@ -1,3 +1,6 @@
+from text import slow_print, clear
+
+
 class Enemy:
     def __init__(self, name, health, attack=10):
         self.name = name
@@ -14,14 +17,18 @@ class Enemy:
         self.health -= damage
         if self.health <= 0:
             self.health = 0
-            print(f"{self.name} has been defeated!")
+            slow_print("Erzähler", f"{self.name} wurde besiegt!")
         else:
-            print(
-                f"{self.name} takes {damage} damage and has {self.health} health left."
+            slow_print(
+                "Erzähler",
+                f"{self.name} erleidet {damage} Schaden und hat noch {self.health} Lebenspunkte.\n\n",
             )
 
     def deal_damage(self, target):
-        print(f"{self.name} attacks {target.name} for {self.attack} damage!")
+        slow_print(
+            "Erzähler",
+            f"{self.name} greift {target.name} an und verursacht {self.attack} Schaden!\n\n",
+        )
         target.take_damage(self.attack)
 
     def is_alive(self):
