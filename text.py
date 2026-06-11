@@ -3,15 +3,22 @@ import sys
 import os
 
 
-def slow_print(speaker, text, sleep=1, delay=0.05, rows=50):
-    print("\n" * (rows - 1))
+def slow_print(
+    speaker, text, sleep=1, delay=0.05, rows=50, resume="Placeholder", fresh=True
+):
+    if fresh:
+        clear_screen()
+    print()
     if speaker:
         print(speaker, ": ", end="")
     for letter in text:
         sys.stdout.write(letter)
         sys.stdout.flush()
         time.sleep(delay)
-    time.sleep(sleep)
+    time.sleep(0.3)
+    print("\n", "Enter".rjust(120))
+    while resume != "":
+        resume = input("")
 
 
 def clear(rows):
