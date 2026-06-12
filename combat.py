@@ -77,12 +77,26 @@ class Combat:
                 choose_potion = input("Deine Wahl: ")
                 match choose_potion:
                     case "1":
-                        self.player.heal(30)
-                        self.inventory.remove_item("Kleiner Heiltrank", 1)
+                        if self.inventory.has_item("Kleiner Heiltrank"):
+                            self.player.heal(30)
+                            self.inventory.remove_item("Kleiner Heiltrank", 1)
+                        else:
+                            print("Ungültige Auswahl!")
+                            time.sleep(1)
+                            self.player_turn()
                     case "2":
-                        self.player.heal(60)
-                        self.inventory.remove_item("Großer Heiltrank", 1)
+                        if self.inventory.has_item("Großer Heiltrank"):
+                            self.player.heal(60)
+                            self.inventory.remove_item("Großer Heiltrank", 1)
+                        else:
+                            print("Ungültige Auswahl!")
+                            time.sleep(1)
+                            self.player_turn()
                     case "3":
+                        self.player_turn()
+                    case _:
+                        print("Ungültige Auswahl!")
+                        time.sleep(1)
                         self.player_turn()
             case "3":
                 slow_print(
