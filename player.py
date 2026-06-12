@@ -1,3 +1,6 @@
+from text import slow_print, clear
+
+
 class Player:
     def __init__(self, name, health, attack):
         self.name = name
@@ -26,6 +29,12 @@ class Player:
         self.health += amount
         if self.health > self.max_health:
             self.health = self.max_health
+
+        slow_print(
+            "Erzähler",
+            f"{self.name} heals for {amount} and now has {self.health} health.",
+            resume="",
+        )
 
     def use_weapon(self, attack):
         self.weapon = attack

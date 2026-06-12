@@ -4,7 +4,7 @@ import os
 
 
 def slow_print(
-    speaker, text, sleep=1, delay=0.05, rows=50, resume="Placeholder", fresh=True
+    speaker, text, sleep=0.3, delay=0.05, rows=50, resume="Placeholder", fresh=True
 ):
     if fresh:
         clear_screen()
@@ -15,8 +15,7 @@ def slow_print(
         sys.stdout.write(letter)
         sys.stdout.flush()
         time.sleep(delay)
-    time.sleep(0.3)
-    print("\n", "Enter".rjust(120))
+    time.sleep(sleep)
     while resume != "":
         resume = input("")
 

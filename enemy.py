@@ -22,14 +22,16 @@ class Enemy:
             slow_print(
                 "Erzähler",
                 f"{self.name} erleidet {damage} Schaden und hat noch {self.health} Lebenspunkte.\n\n",
+                resume="",
             )
 
-    def deal_damage(self, target):
+    def deal_damage(self, target, damage):
         slow_print(
             "Erzähler",
-            f"{self.name} greift {target.name} an und verursacht {self.attack} Schaden!\n\n",
+            f"{self.name} greift {target.name} an und verursacht {damage} Schaden!\n\n",
+            resume="",
         )
-        target.take_damage(self.attack)
+        target.take_damage(damage)
 
     def is_alive(self):
         return self.health > 0
@@ -38,4 +40,7 @@ class Enemy:
         self.health += amount
         if self.health > self.max_health:
             self.health = self.max_health
-        print(f"{self.name} heals for {amount} and now has {self.health} health.")
+        print(
+            f"{self.name} heals for {amount} and now has {self.health} health.",
+            resume="",
+        )
