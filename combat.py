@@ -1,6 +1,6 @@
 import random
 import time
-from text import slow_print, clear, clear_screen
+from text import slow_print, clear_screen
 from player import Player
 from enemy import Enemy
 from inventory import Inventory
@@ -17,14 +17,14 @@ class Combat:
         for key, value in self.menu.items():
             print(key + ": " + value)
 
-    def potion_menu(self):  # Show potion menu
+    def potion_menu(self):  # Show available potion options
         if self.inventory.has_item("Kleiner Heiltrank"):
             print("1. Kleinen Heiltrank benutzen")
         if self.inventory.has_item("Großer Heiltrank"):
             print("2. Großen Heiltrank benutzen")
         print("3. Zurück")
 
-    def damage_multiplier(self):
+    def damage_multiplier(self):  # Randomize attack strength
         damage_multiplier = random.choice(
             [0, 0.5, 0.5, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1.5, 1.5, 2]
         )
@@ -41,18 +41,18 @@ class Combat:
                 slow_print("Erzähler", "Kritischer Treffer!", sleep=2, resume="")
         return damage_multiplier
 
-    def player_attack(self):
+    def player_attack(self):  # Calculate and deal player damage
         self.player.deal_damage(
             self.enemy,
             int((self.player.attack + self.player.weapon) * self.damage_multiplier()),
         )
 
-    def enemy_attack(self):
+    def enemy_attack(self):  # Calculate and deal enemy damage
         self.enemy.deal_damage(
             self.player, int(self.enemy.attack * self.damage_multiplier())
         )
 
-    def fight_intro(self):
+    def fight_intro(self):  # Show fight intro animation
         for _ in range(5):
             clear_screen()
             time.sleep(0.1)
@@ -66,7 +66,7 @@ class Combat:
             print()
             time.sleep(0.2)
 
-    def player_turn(self):
+    def player_turn(self):  # Handle player's turn
         self.combat_menu()
         choose = input("Deine Wahl: ")
         match choose:
@@ -91,7 +91,7 @@ class Combat:
                 )
                 return "end_of_fight"
 
-    def enemy_turn(self):
+    def enemy_turn(self):  # Handle enemy's turn
         if self.enemy.is_alive():
             slow_print(
                 "Erzähler",
@@ -103,7 +103,7 @@ class Combat:
         else:
             return
 
-    def status(self):
+    def status(self):  # Show current fight status
         print(self.player, end=" ------ ")
         print(self.enemy)
         print(
@@ -118,7 +118,7 @@ class Combat:
             "\n",
         )
 
-    def fight(self):
+    def fight(self):  # Main fight loop
         start = random.choice(["player", "enemy"])
         self.fight_intro()
         while self.player.is_alive() and self.enemy.is_alive():
@@ -137,10 +137,11 @@ class Combat:
                     return
 
 
-# Test Code - Kevin vs Goblin :-D
-player = Player("Kevin", 100, 10)
-enemy = Enemy("Goblin", 50)
-inventory = Inventory()
-inventory.add_item("Kleiner Heiltrank", 3)
-combat = Combat(player, enemy, inventory)
-combat.fight()
+# Test code - only runs when this file is executed directly
+if __name__ == "__main__":
+    player = Player("Kevin", 100, 10)
+    enemy = Enemy("Goblin", 50)
+    inventory = Inventory()
+    inventory.add_item("Kleiner Heiltrank", 3)
+    combat = Combat(player, enemy, inventory)
+    combat.fight()
