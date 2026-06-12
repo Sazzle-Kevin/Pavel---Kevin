@@ -16,7 +16,6 @@ def slow_print(
         sys.stdout.flush()
         time.sleep(delay)
     time.sleep(0.3)
-    print("\n", "Enter".rjust(120))
     while resume != "":
         resume = input("")
 
