@@ -28,3 +28,9 @@ class Inventory:
 
     def has_item(self, item_name):
         return item_name in self.inventory and self.inventory[item_name] > 0
+
+    def get_quantity(self, item_name):
+        if item_name in self.inventory:
+            return self.inventory[item_name]
+        else:
+            return 0
