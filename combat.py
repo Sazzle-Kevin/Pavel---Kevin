@@ -32,7 +32,12 @@ class Combat:
             case 0:
                 slow_print("Erzähler", "Verfehlt!", sleep=2, resume="")
             case 0.5:
-                slow_print("Erzähler", "Nur ein Streiftreffer!", sleep=2, resume="")
+                slow_print(
+                    "Erzähler",
+                    "Nur ein Streiftreffer!",
+                    sleep=2,
+                    resume="",
+                )
             case 1:
                 pass
             case 1.5:
@@ -99,11 +104,12 @@ class Combat:
                         time.sleep(1)
                         self.player_turn()
             case "3":
-                slow_print(
-                    "Erzähler",
-                    f"{self.player.name} flieht aus dem Kampf!",
-                )
+                slow_print("Erzähler", f"{self.player.name} flieht aus dem Kampf!")
                 return "end_of_fight"
+            case _:
+                print("Ungültige Auswahl!")
+                time.sleep(1)
+                self.player_turn()
 
     def enemy_turn(self):  # Handle enemy's turn
         if self.enemy.is_alive():
@@ -112,6 +118,7 @@ class Combat:
                 f"Jetzt ist {self.enemy.name} am Zug.\n",
                 sleep=2,
                 resume="",
+                fresh=False,
             )
             self.enemy_attack()
         else:
@@ -137,7 +144,7 @@ class Combat:
         self.fight_intro()
         while self.player.is_alive() and self.enemy.is_alive():
             self.status()
-            time.sleep(2)
+            time.sleep(3)
             if start == "player":
                 if self.player_turn() == "end_of_fight":
                     return
@@ -145,6 +152,8 @@ class Combat:
             else:
                 self.enemy_turn()
                 if self.player.is_alive():
+                    clear_screen()
+                    self.status()
                     if self.player_turn() == "end_of_fight":
                         return
                 else:

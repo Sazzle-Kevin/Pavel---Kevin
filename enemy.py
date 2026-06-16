@@ -26,12 +26,13 @@ class Enemy:
             )
 
     def deal_damage(self, target, damage):
-        slow_print(
-            "Erzähler",
-            f"{self.name} greift {target.name} an und verursacht {damage} Schaden!\n\n",
-            resume="",
-        )
-        target.take_damage(damage)
+        if damage != 0:
+            slow_print(
+                "Erzähler",
+                f"{self.name} greift {target.name} an und verursacht {damage} Schaden!\n\n",
+                resume="",
+            )
+            target.take_damage(damage)
 
     def is_alive(self):
         return self.health > 0

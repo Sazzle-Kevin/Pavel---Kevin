@@ -20,7 +20,8 @@ class Player:
             self.health = 0
 
     def deal_damage(self, target, damage):
-        target.take_damage(damage)
+        if damage != 0:
+            target.take_damage(damage)
 
     def is_alive(self):
         return self.health > 0
@@ -32,7 +33,7 @@ class Player:
 
         slow_print(
             "Erzähler",
-            f"{self.name} heals for {amount} and now has {self.health} health.",
+            f"{self.name} heilt sich um {amount} Lebenspunkte und hat jetzt {self.health} Lebenspunkte.\n",
             resume="",
         )
 
