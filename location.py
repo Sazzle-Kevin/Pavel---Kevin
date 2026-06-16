@@ -11,39 +11,39 @@ from enemy import Enemy
 
 ########## Wald-Gegner ##########
 def spawn_wolf():
-    return Enemy("Wolf", 35, 6)
+    return Enemy("Wolf", 35, 10, 6)
 
 
 def spawn_boar():
-    return Enemy("Wildschwein", 45, 8)
+    return Enemy("Wildschwein", 45, 15, 8)
 
 
 # Rare #
 def spawn_golden_pig():
-    return Enemy("Goldenes Schwein", 25, 4)
+    return Enemy("Goldenes Schwein", 25, 30, 4)
 
 
 ########## Höhlen-Gegner ##########
 def spawn_spider():
-    return Enemy("Spinne", 40, 7)
+    return Enemy("Spinne", 40, 12, 7)
 
 
 def spawn_bat():
-    return Enemy("Fledermaus", 25, 5)
+    return Enemy("Fledermaus", 25, 8, 5)
 
 
 # Rare #
 def spawn_cave_man():
-    return Enemy("Steinzeitlicher Höhlenmensch", 65, 12)
+    return Enemy("Steinzeitlicher Höhlenmensch", 65, 35, 12)
 
 
 ########## Schloss- Gegner ##########
 def spawn_vampire():
-    return Enemy("Vampir", 80, 15)
+    return Enemy("Vampir", 80, 20, 15)
 
 
 def spawn_goblin():
-    return Enemy("Goblin", 50, 10)
+    return Enemy("Goblin", 50, 20, 10)
 
 
 ################################################################################

@@ -163,8 +163,11 @@ class Combat:
 # Test code - only runs when this file is executed directly
 if __name__ == "__main__":
     player = Player("Kevin", 100, 10)
-    enemy = Enemy("Goblin", 50)
+    enemy = Enemy("Goblin", 50, 25)
     inventory = Inventory()
     inventory.add_item("Kleiner Heiltrank", 3)
+    combat = Combat(player, enemy, inventory)
+    combat.fight()
+    enemy = Enemy("Wolf", 35, 10, 6)
     combat = Combat(player, enemy, inventory)
     combat.fight()

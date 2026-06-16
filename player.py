@@ -8,11 +8,11 @@ class Player:
         self.max_health = health
         self.attack = attack
         self.weapon = 0
+        self.level = 1
+        self.xp = 0
 
     def __str__(self):
-        return (
-            f"{self.name}: Health={self.health}/{self.max_health}, Attack={self.attack}"
-        )
+        return f"{self.name}: Health={self.health}/{self.max_health}, Attack={self.attack}, Level={self.level}, XP={self.xp}/{self.level*25}"
 
     def take_damage(self, damage):
         self.health -= damage
@@ -21,7 +21,7 @@ class Player:
 
     def deal_damage(self, target, damage):
         if damage != 0:
-            target.take_damage(damage)
+            target.take_damage(self, damage)
 
     def is_alive(self):
         return self.health > 0
@@ -39,3 +39,18 @@ class Player:
 
     def use_weapon(self, attack):
         self.weapon = attack
+
+    def get_xp(self, xp):
+        self.xp += xp
+        self.level_up()
+
+    def level_up(self):
+        while self.xp >= self.level * 25:
+            self.level += 1
+            self.attack += 2
+            self.xp -= (self.level - 1) * 25
+            slow_print(
+                "Erzähler",
+                f"{self.name} wird stärker und erreicht Level {self.level}! Angriff +2.",
+                resume="",
+            )

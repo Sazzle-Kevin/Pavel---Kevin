@@ -2,21 +2,23 @@ from text import slow_print, clear
 
 
 class Enemy:
-    def __init__(self, name, health, attack=10):
+    def __init__(self, name, health, xp, attack=10):
         self.name = name
         self.health = health
         self.max_health = health
         self.attack = attack
+        self.xp = xp
 
     def __str__(self):
         return (
             f"{self.name}: Health={self.health}/{self.max_health}, Attack={self.attack}"
         )
 
-    def take_damage(self, damage):
+    def take_damage(self, target, damage):
         self.health -= damage
         if self.health <= 0:
             self.health = 0
+            target.get_xp(self.xp)
             slow_print("Erzähler", f"{self.name} wurde besiegt!")
         else:
             slow_print(
