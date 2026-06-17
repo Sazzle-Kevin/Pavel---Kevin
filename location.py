@@ -2,7 +2,7 @@
 #                                  LOCATION                                    #
 ################################################################################
 
-from enemy import Enemy
+import enemy
 
 ################################################################################
 #                            BASE GEGNER FÜR PAVEL                             #
@@ -11,39 +11,39 @@ from enemy import Enemy
 
 ########## Wald-Gegner ##########
 def spawn_wolf():
-    return Enemy("Wolf", 35, 10, 6)
+    return enemy.Enemy("Wolf", 35, 10, 6)
 
 
 def spawn_boar():
-    return Enemy("Wildschwein", 45, 15, 8)
+    return enemy.Enemy("Wildschwein", 45, 15, 8)
 
 
 # Rare #
 def spawn_golden_pig():
-    return Enemy("Goldenes Schwein", 25, 30, 4)
+    return enemy.Enemy("Goldenes Schwein", 25, 30, 4)
 
 
 ########## Höhlen-Gegner ##########
 def spawn_spider():
-    return Enemy("Spinne", 40, 12, 7)
+    return enemy.Enemy("Spinne", 40, 12, 7)
 
 
 def spawn_bat():
-    return Enemy("Fledermaus", 25, 8, 5)
+    return enemy.Enemy("Fledermaus", 25, 8, 5)
 
 
 # Rare #
 def spawn_cave_man():
-    return Enemy("Steinzeitlicher Höhlenmensch", 65, 35, 12)
+    return enemy.Enemy("Steinzeitlicher Höhlenmensch", 65, 35, 12)
 
 
 ########## Schloss- Gegner ##########
 def spawn_vampire():
-    return Enemy("Vampir", 80, 20, 15)
+    return enemy.Enemy("Vampir", 80, 20, 15)
 
 
 def spawn_goblin():
-    return Enemy("Goblin", 50, 20, 10)
+    return enemy.Enemy("Goblin", 50, 20, 10)
 
 
 ################################################################################

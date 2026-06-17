@@ -56,7 +56,7 @@ def intro():
     time.sleep(1.5)
     slow_print(
         "Erzähler",
-        f"Und so begab sich {player.name} auf seinen Weg die Prinzessin zu befreien und ein echter Held zu werden!",
+        f"So begab sich {player.name} auf seinen Weg die Prinzessin zu befreien und ein echter Held zu werden!",
     )
     return player
 
@@ -70,7 +70,7 @@ def game_start():
     print()
     titel_name = "DUNGEON QUEST".center(80)
     slow_print("", titel_name, 3, 0.1)
-    clear(50)
+    clear_screen
     time.sleep(1)
 
     slow_print("Erzähler", "Dises Spiel ist ein Text-Based RPG Adventure.", 3)
@@ -81,60 +81,24 @@ def game_start():
         rows=1,
     )
     slow_print("Erzähler", "Viel Erfolg junger Held.", 3, rows=1)
-    clear(50)
+    clear_screen
 
 
 ################################################################################
-#                                   Umgebung                                   #
+#                                   STRINGS                                    #
 ################################################################################
 
+# # # # # # # # # # # # # # # # Reise Strings # # # # # # # # # # # # # # # #
 
-def umschauen():
-    current = player.location
-
-    match current:
-
-        case location.dorf:
-            slow_print(
-                "Erzähler",
-                "Dies ist nur ein kleines Dorf. Du siehst einen kleinen Laden in der Nähe.",
-            )
-        case location.ollum:
-            slow_print(
-                "Erzähler",
-                "Die Luft in Sollum ist wunderbar frisch. In der Nähe ist ein Laden.",
-            )
-        case location.monda:
-            slow_print(
-                "Erzähler",
-                "Monda sieht viel bunter aus, als all die anderen Orte. In der Nähe ist ein Laden.",
-            )
-        case location.castle:
-            slow_print(
-                "Erzähler",
-                "Das Schloss sieht verlassen aus. Aber du spührst, dass das nicht der Fall ist.",
-            )
-        case location.forrest:
-            slow_print(
-                "Erzähler",
-                random.choice(
-                    [
-                        "Du siehst einen merkwürdigen Stein.",
-                        "Im Busch ist etwas.",
-                        "Dir fällt ein kleiner Erdhaufen auf.",
-                        "Du merkst etwas unter deinem Schuh.",
-                    ]
-                ),
-            )
-        case location.cave:
-            slow_print(
-                "Erzähler",
-                random.choice(
-                    [
-                        "Im Dunkeln funkelt etwas.",
-                        "In einem Seitengang hörst du Wasser tropfen, doch nicht auf den nassen Boden, wie es sonst der Fall ist.",
-                        "Du spürst etwas über dir.",
-                        "Du merkst etwas unter deinem Schuh.",
-                    ]
-                ),
-            )
+reise_battle = [
+    "Es hat Füß! Achtung!",
+    "Es hat Hände! Achtung!",
+    "Es hat Augen! Achtung!",
+    "Es hat wuschige Augenbrauen! Achtung!",
+]
+reise_no_battle = [
+    "Ein Schmetterling.",
+    "Ein Frosch.",
+    "Ein blauer Pilz neben einem roten Pilz.",
+    "Eine frische Brise.",
+]
