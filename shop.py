@@ -1,4 +1,79 @@
+################################################################################
+#                                     SHOP                                     #
+################################################################################
+
 import random
+import items
+import time
+from text import slow_print, clear_screen
+
+################################################################################
+#                                KLASSE: SHOP                                  #
+################################################################################
+
+
+class Shop:
+
+    def __init__(self):
+        self.items = {"Kleiner Heiltrank": items.small_potion}
+
+    def new_items(self):
+        self.itmes = [random.choice(items.shop_items) for _ in range(3)]
+
+    def kaufen(self, inventory):
+        while True:
+            clear_screen()
+            slow_print(
+                "Verkäufer", "Was hätten Sie gerne? V zum verlassen.\n", resume=""
+            )
+
+            for item in self.items.keys():
+                print(item)
+
+            inp = input().title()
+            clear_screen()
+
+            if inp == "V":
+                slow_print("Verkäufer", random.choice(random_faces), resume="")
+                time.sleep(1)
+                return inventory
+
+            if inp in self.items:
+                slow_print("Verkäufer", f"1x {inp}? Sehr gerne!")
+                inventory.add_item(self.items.pop(inp, None))
+            else:
+                slow_print(
+                    "Verkäufer",
+                    f"Leider habe ich gerade das letzte {inp} verkauft.",
+                    resume="",
+                )
+
+    def verkaufen(self, inventory):
+        while True:
+            clear_screen()
+            slow_print(
+                "Verkäufer", "Was möchten Sie verkaufen? V zum Verlassen\n", resume=""
+            )
+
+            for item, quantity in inventory.inventory.items():
+                print(f"{item.name} x{quantity}")
+
+            inp = input().title()
+            clear_screen()
+            if inp == "V":
+                slow_print("Verkäufer", random.choice(random_faces), resume="")
+                time.sleep(1)
+                return inventory
+
+            if items.item_dict[inp] and items.item_dict[inp] in inventory.inventory:
+                inventory.remove_item()
+
+    def fragen(self):
+        slow_print(
+            "Verkäufer",
+            f"Ich beantworte keine Fragen mehr{random.choice(random_antworten)}",
+        )
+
 
 random_antworten = [
     " seitdem meine Frau laktoseintolerant ist.",
@@ -13,32 +88,4 @@ random_antworten = [
     ". Aber ich mag Pudding.",
 ]
 
-
-def shop(self):
-    if self.location != "city":
-        print(f"{self.name} ist keine Stadt. Hier gibt es keinen Shop.")
-        return
-    else:
-        print("Guten Tag junger Abenteurer!\n", "Wie kann ich behilflich sein?")
-        inp = "Hi"
-
-        while inp != "Verlassen":
-            inp = input("Kaufen - Verkaufen - Befragen - Verlassen").lower()
-
-            match inp:
-
-                case "kaufen":
-                    print("Was hätten Sie gerne?")
-                    pass
-                case "verkaufen":
-                    print("Was bieten Sie an?")
-                    pass
-                case "befragen":
-                    print(
-                        f"Ich beantworte keine Fragen mehr{random.choice(random_antworten)}"
-                    )
-                case "verlassen":
-                    print("Beehren Sie uns bald wieder!")
-                case _:
-                    print("Ich konnte Sie leider nicht verstehen.")
-    pass
+random_faces = ["O_O", "-_-", ":)", ":O", "😎", ":(", "Ich mag Brot."]
