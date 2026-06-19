@@ -4,7 +4,6 @@ from text import slow_print, clear_screen
 from player import Player
 from enemy import Enemy
 from inventory import Inventory
-import items
 
 
 class Combat:
@@ -19,9 +18,9 @@ class Combat:
             print(key + ": " + value)
 
     def potion_menu(self):  # Show available potion options
-        if self.inventory.has_item(items.small_potion):
+        if self.inventory.has_item("Kleiner Heiltrank"):
             print("1. Kleinen Heiltrank benutzen")
-        if self.inventory.has_item(items.big_potion):
+        if self.inventory.has_item("Großer Heiltrank"):
             print("2. Großen Heiltrank benutzen")
         print("3. Zurück")
 
@@ -83,17 +82,17 @@ class Combat:
                 choose_potion = input("Deine Wahl: ")
                 match choose_potion:
                     case "1":
-                        if self.inventory.has_item(items.small_potion):
-                            self.player.heal(items.small_potion.heal)
-                            self.inventory.remove_item(items.small_potion, 1)
+                        if self.inventory.has_item("Kleiner Heiltrank"):
+                            self.player.heal(30)
+                            self.inventory.remove_item("Kleiner Heiltrank", 1)
                         else:
                             print("Ungültige Auswahl!")
                             time.sleep(1)
                             self.player_turn()
                     case "2":
-                        if self.inventory.has_item(items.big_potion):
-                            self.player.heal(items.big_potion.heal)
-                            self.inventory.remove_item(items.big_potion, 1)
+                        if self.inventory.has_item("Großer Heiltrank"):
+                            self.player.heal(60)
+                            self.inventory.remove_item("Großer Heiltrank", 1)
                         else:
                             print("Ungültige Auswahl!")
                             time.sleep(1)
@@ -141,12 +140,12 @@ class Combat:
         print(
             " " * (len(self.player.name) + 1),
             "Kleiner Heiltrank: ",
-            self.inventory.get_quantity(items.small_potion),
+            self.inventory.get_quantity("Kleiner Heiltrank"),
         )
         print(
             " " * (len(self.player.name) + 1),
             "Großer Heiltrank:  ",
-            self.inventory.get_quantity(items.big_potion),
+            self.inventory.get_quantity("Großer Heiltrank"),
             "\n",
         )
 
@@ -176,7 +175,7 @@ class Combat:
 #     player = Player("Kevin", 100, 10)
 #     enemy = Enemy("Goblin", 50, 25)
 #     inventory = Inventory()
-#     inventory.add_item(items.small_potion, 3)
+#     inventory.add_item("Kleiner Heiltrank", 3)
 #     combat = Combat(player, enemy, inventory)
 #     combat.fight()
 #     enemy = Enemy("Wolf", 35, 10, 6)
