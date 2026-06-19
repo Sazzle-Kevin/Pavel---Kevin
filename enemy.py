@@ -1,4 +1,5 @@
 from text import slow_print, clear
+import time
 
 
 class Enemy:
@@ -32,6 +33,7 @@ class Enemy:
             slow_print(
                 "Erzähler",
                 f"{self.name} greift {target.name} an und verursacht {damage} Schaden!\n\n",
+                sleep=0.5,
                 resume="",
             )
             target.take_damage(damage)
