@@ -26,7 +26,7 @@ class UserInterface:
     def __init__(self):
         self.current = "Neutral"
 
-    # # # # # # # # # # # # # # # # Inventory # # # # # # # # # # # # # # # #  ## Wird vermutlich noch überarbeitet ##
+    # # # # # # # # # # # # # # # # Inventory # # # # # # # # # # # # # # # #
     def tasche(self):
         self.tasche_benutzen(player, inventory)
 

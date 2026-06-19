@@ -61,8 +61,7 @@ class Shop:
                 "Verkäufer", "Was möchten Sie verkaufen? V zum Verlassen\n", resume=""
             )
 
-            for item, quantity in inventory.inventory.items():
-                print(inventory)
+            print(inventory)
 
             inp = input().title()
             clear_screen()
