@@ -13,6 +13,8 @@ class Combat:
         self.enemy = enemy
         self.inventory = inventory
         self.menu = {"1": "Angreifen", "2": "Heiltrank benutzen", "3": "Waffe ausrüsten", "4": "Fliehen"}
+        self.multiplier = [[0, 0.5, 0.5, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1.5, 1.5, 2],
+                           [0.5, 1, 1, 1, 1, 1, 1, 1.5, 1.5, 2]]
 
     def combat_menu(self):  # Show combat menu
         for key, value in self.menu.items():
@@ -53,7 +55,7 @@ class Combat:
             self.inventory.remove_item(weapon.name, 1)
             slow_print(
                 "Erzähler",
-                f"{self.player.name} rüstet {weapon.name} aus! Angriff +{weapon.damage}.",
+                f"{self.player.name} rüstet {weapon.name} aus! Angriff +{weapon.damage}.\n",
                 resume="",
             )
         elif choice == index - 1 and self.player.weapon is not None:
@@ -63,7 +65,7 @@ class Combat:
             self.player.weapon_attack = 0
             slow_print(
                 "Erzähler",
-                f"{self.player.name} legt {old_weapon} weg.",
+                f"{self.player.name} legt {old_weapon} weg.\n",
                 resume="",
             )
         elif choice == index:
@@ -74,10 +76,8 @@ class Combat:
             return self.weapon_menu()
         
 
-    def damage_multiplier(self):  # Randomize attack strength
-        damage_multiplier = random.choice(
-            [0, 0.5, 0.5, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1.5, 1.5, 2]
-        )
+    def damage_multiplier(self, multiplier):  # Randomize attack strength
+        damage_multiplier = random.choice(multiplier)
         match damage_multiplier:
             case 0:
                 slow_print("Erzähler", "Verfehlt!\n\n", sleep=2, resume="")
@@ -99,12 +99,12 @@ class Combat:
     def player_attack(self):  # Calculate and deal player damage
         self.player.deal_damage(
             self.enemy,
-            int((self.player.attack + self.player.weapon_attack) * self.damage_multiplier()),
+            int((self.player.attack + self.player.weapon_attack) * self.damage_multiplier(self.multiplier[1] if self.player.weapon is not None else self.multiplier[0])),
         )
 
     def enemy_attack(self):  # Calculate and deal enemy damage
         self.enemy.deal_damage(
-            self.player, int(self.enemy.attack * self.damage_multiplier())
+            self.player, int(self.enemy.attack * self.damage_multiplier(self.multiplier[0]))
         )
 
     def fight_intro(self):  # Show fight intro animation
@@ -224,13 +224,17 @@ class Combat:
 
 
 # Test code - only runs when this file is executed directly
-# if __name__ == "__main__":
-#     player = Player("Kevin", 100, 10)
-#     enemy = Enemy("Goblin", 50, 25)
-#     inventory = Inventory()
-#     inventory.add_item("Kleiner Heiltrank", 3)
-#     combat = Combat(player, enemy, inventory)
-#     combat.fight()
-#     enemy = Enemy("Wolf", 35, 10, 6)
-#     combat = Combat(player, enemy, inventory)
-#     combat.fight()
+""" if __name__ == "__main__":
+    player = Player("Kevin", 100, 10)
+    enemy = Enemy("Goblin", 50, 25)
+    inventory = Inventory()
+    inventory.add_item("Kleiner Heiltrank", 3)
+    inventory.add_item("Großer Heiltrank", 1)
+    inventory.add_item("Holzaxt", 1)
+    inventory.add_item("Holzschwert", 1)
+    inventory.add_item("Kleiner Heiltrank", 3)
+    combat = Combat(player, enemy, inventory)
+    combat.fight()
+    enemy = Enemy("Wolf", 35, 10, 6)
+    combat = Combat(player, enemy, inventory)
+    combat.fight() """
