@@ -30,7 +30,7 @@ class Combat:
         )
         match damage_multiplier:
             case 0:
-                slow_print("Erzähler", "Verfehlt!", sleep=2, resume="")
+                slow_print("Erzähler", "Verfehlt!\n", sleep=2, resume="")
             case 0.5:
                 slow_print(
                     "Erzähler",
@@ -49,7 +49,7 @@ class Combat:
     def player_attack(self):  # Calculate and deal player damage
         self.player.deal_damage(
             self.enemy,
-            int((self.player.attack + self.player.weapon) * self.damage_multiplier()),
+            int((self.player.attack + self.player.weapon_attack) * self.damage_multiplier()),
         )
 
     def enemy_attack(self):  # Calculate and deal enemy damage
@@ -127,6 +127,16 @@ class Combat:
     def status(self):  # Show current fight status
         print(self.player, end=" ------ ")
         print(self.enemy)
+        if self.player.weapon:
+            print(
+                " " * (len(self.player.name) + 1),
+                f"Waffe: {self.player.weapon} (+{self.player.weapon_attack})"
+            )
+        else:
+            print(
+                " " * (len(self.player.name) + 1),
+                "Waffe: Keine"
+            )
         print(
             " " * (len(self.player.name) + 1),
             "Kleiner Heiltrank: ",
