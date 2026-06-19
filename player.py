@@ -7,7 +7,8 @@ class Player:
         self.health = health
         self.max_health = health
         self.attack = attack
-        self.weapon = 0
+        self.weapon = None
+        self.weapon_attack = 0
         self.level = 1
         self.xp = 0
         self.location = None
@@ -38,11 +39,13 @@ class Player:
             resume="",
         )
 
-    def use_weapon(self, attack):
-        self.weapon = attack
+    def use_weapon(self, name, attack):
+        self.weapon_attack = attack
+        self.weapon = name
 
     def get_xp(self, xp):
         self.xp += xp
+        slow_print("Erzähler", f"{self.name} erhält {xp} Erfahrungspunkte!", resume="")
         self.level_up()
 
     def level_up(self):
