@@ -14,7 +14,7 @@ class Player:
         self.location = None
 
     def __str__(self):
-        return f"{self.name}: Health={self.health}/{self.max_health}, Attack={self.attack}, Level={self.level}, XP={self.xp}/{self.level*25}"
+        return f"{self.name}: Health={self.health}/{self.max_health}, Attack={self.attack+self.weapon_attack}, Level={self.level}, XP={self.xp}/{self.level*25}"
 
     def take_damage(self, damage):
         self.health -= damage

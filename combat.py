@@ -127,6 +127,16 @@ class Combat:
     def status(self):  # Show current fight status
         print(self.player, end=" ------ ")
         print(self.enemy)
+        if self.player.weapon:
+            print(
+                " " * (len(self.player.name) + 1),
+                f"Waffe: {self.player.weapon} (+{self.player.weapon_attack})"
+            )
+        else:
+            print(
+                " " * (len(self.player.name) + 1),
+                "Waffe: Keine"
+            )
         print(
             " " * (len(self.player.name) + 1),
             "Kleiner Heiltrank: ",
