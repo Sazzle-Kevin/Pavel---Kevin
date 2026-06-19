@@ -24,9 +24,9 @@ class Potion(Items):
 
         potions[self.name] = self
 
-    def use(self, char):
-        player.heal(self.heal)
-        remove_item(self.name)
+    def use(self, char, inventory):
+        char.heal(self.heal)
+        inventory.remove_item(self.name)
 
 
 class Weapon(Items):
@@ -37,9 +37,9 @@ class Weapon(Items):
 
         weapons[self.name] = self
 
-    def use(self, char):
-        player.use_weapon(self.damage)
-        remove_item(self.name)
+    def use(self, char, inventory):
+        char.use_weapon(self.damage)
+        inventory.remove_item(self.name)
 
 
 ################################################################################

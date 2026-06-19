@@ -28,14 +28,14 @@ class UserInterface:
 
     # # # # # # # # # # # # # # # # Inventory # # # # # # # # # # # # # # # #  ## Wird vermutlich noch überarbeitet ##
     def tasche(self):
-        self.current = "Tasche"
+        self.tasche_benutzen(player, inventory)
 
+    def tasche_benutzen(self, char, inventory):
         while True:
             clear_screen()
             print("Welchen Gegenstand willst du benutzen? V zum zurückkehren\n")
 
-            for item, quantity in inventory.inventory.items():
-                print(f"{item.name} x{quantity}")
+            print(inventory)
 
             inp = input().title()
 
@@ -43,12 +43,9 @@ class UserInterface:
                 self.current = "Neutral"
                 return
 
-            if inp in items.item_dict:
-                chosen = items.item_dict[inp]
-                if chosen in inventory.inventory and chosen.use is True:
-                    chosen.use(player)
-                    inventory.remove_item(chosen.name)
-                    slow_print("Erzähler", f"{player.name} benutzt {chosen.name}!")
+            if inp in inventory.inventory:
+                items.item_dict[inp].use(char, inventory)
+                slow_print("Erzähler", f"{char.name} benutzt {inp}!")
             else:
                 print(f"{inp} kann nicht benutzt werden.")
 
@@ -67,14 +64,14 @@ class UserInterface:
 
     def kaufen(self):
         global inventory
-        inventory = shop.kaufen(inventory)
+        inventory = town_shop.kaufen(inventory)
 
     def verkaufen(self):
         global inventory
-        inventory = shop.verkaufen(inventory)
+        inventory = town_shop.verkaufen(inventory)
 
     def fragen(self):
-        shop.fragen()
+        town_shop.fragen()
 
     def verlassen(self):
         self.current = "Neutral"
@@ -97,7 +94,7 @@ class UserInterface:
     def reisen(self):
         clear_screen()
         route = random.choice(location.routes)
-        shop.new_items()
+        town_shop.new_items()
         slow_print(
             "Erzähler",
             f"{player.name} macht sich auf die Reise. Route: {route.name}.",
@@ -134,7 +131,7 @@ class UserInterface:
             if chance >= 7:
                 loot = random.choice(items.event_items)
                 slow_print("Erzähler", f"Nice! 1x {loot.name} gefunden!")
-                inventory.add_item(loot)
+                inventory.add_item(loot.name)
             else:
                 slow_print("Erzähler", "Oh nein, ein Überfall!")
                 self.kampf(route)
@@ -180,7 +177,7 @@ clear_screen()
 #                                     GAME                                     #
 ################################################################################
 inventory = Inventory()
-shop = Shop()
+town_shop = Shop()
 
 worldmap = world_map.WorldMap()
 ui = UserInterface()

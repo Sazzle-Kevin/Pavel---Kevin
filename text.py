@@ -10,7 +10,7 @@ import os
 
 
 def slow_print(
-    speaker, text, sleep=0.3, delay=0.05, rows=50, resume="Placeholder", fresh=True
+    speaker, text, sleep=0.3, delay=0.03, rows=50, resume="Placeholder", fresh=True
 ):
     if fresh:
         clear_screen()

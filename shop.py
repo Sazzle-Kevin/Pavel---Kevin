@@ -15,10 +15,12 @@ from text import slow_print, clear_screen
 class Shop:
 
     def __init__(self):
-        self.items = {"Kleiner Heiltrank": items.small_potion}
+        self.items = {"Kleiner Heiltrank": 1}
 
     def new_items(self):
-        self.itmes = [random.choice(items.shop_items) for _ in range(3)]
+        for _ in range(3):
+            chosen = random.choice(items.shop_items)
+            self.items[chosen.name] = self.items.get(chosen.name, 0) + 1
 
     def kaufen(self, inventory):
         while True:
@@ -40,7 +42,11 @@ class Shop:
 
             if inp in self.items:
                 slow_print("Verkäufer", f"1x {inp}? Sehr gerne!")
-                inventory.add_item(self.items.pop(inp, None))
+                inventory.add_item(inp)
+                if self.items[inp] > 1:
+                    self.items[inp] -= 1
+                else:
+                    self.items.pop(inp)
             else:
                 slow_print(
                     "Verkäufer",
@@ -56,7 +62,7 @@ class Shop:
             )
 
             for item, quantity in inventory.inventory.items():
-                print(f"{item.name} x{quantity}")
+                print(inventory)
 
             inp = input().title()
             clear_screen()
@@ -65,8 +71,12 @@ class Shop:
                 time.sleep(1)
                 return inventory
 
-            if items.item_dict[inp] and items.item_dict[inp] in inventory.inventory:
-                inventory.remove_item()
+            if inp in inventory.inventory:
+                slow_print(
+                    "Verkäufer",
+                    "Hier sind ihre 0 Dino Nuggets (Wir haben noch kein Geld^^)",
+                )
+                inventory.remove_item(inp)
 
     def fragen(self):
         slow_print(
