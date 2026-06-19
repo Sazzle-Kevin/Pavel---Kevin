@@ -10,6 +10,7 @@ class Player:
         self.weapon = 0
         self.level = 1
         self.xp = 0
+        self.location = None
 
     def __str__(self):
         return f"{self.name}: Health={self.health}/{self.max_health}, Attack={self.attack}, Level={self.level}, XP={self.xp}/{self.level*25}"
