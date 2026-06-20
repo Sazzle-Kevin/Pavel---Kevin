@@ -36,6 +36,7 @@ class Player:
         slow_print(
             "Erzähler",
             f"{self.name} heilt sich um {amount} Lebenspunkte und hat jetzt {self.health} Lebenspunkte.\n",
+            sleep=1,
             resume="",
         )
 
@@ -46,6 +47,7 @@ class Player:
     def get_xp(self, xp):
         self.xp += xp
         slow_print("Erzähler", f"{self.name} erhält {xp} Erfahrungspunkte!", resume="")
+        sleep=1,
         self.level_up()
 
     def level_up(self):
@@ -57,4 +59,5 @@ class Player:
                 "Erzähler",
                 f"{self.name} wird stärker und erreicht Level {self.level}! Angriff +2.",
                 resume="",
+                sleep=1,
             )

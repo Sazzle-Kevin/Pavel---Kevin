@@ -4,6 +4,7 @@ from text import slow_print, clear_screen
 from player import Player
 from enemy import Enemy
 from inventory import Inventory
+import items
 
 
 class Combat:
@@ -11,7 +12,9 @@ class Combat:
         self.player = player
         self.enemy = enemy
         self.inventory = inventory
-        self.menu = {"1": "Angreifen", "2": "Heiltrank benutzen", "3": "Fliehen"}
+        self.menu = {"1": "Angreifen", "2": "Heiltrank benutzen", "3": "Waffe ausrüsten", "4": "Fliehen"}
+        self.multiplier = [[0, 0.5, 0.5, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1.5, 1.5, 2],
+                           [0.5, 1, 1, 1, 1, 1, 1, 1.5, 1.5, 2]]
 
     def combat_menu(self):  # Show combat menu
         for key, value in self.menu.items():
@@ -24,13 +27,60 @@ class Combat:
             print("2. Großen Heiltrank benutzen")
         print("3. Zurück")
 
-    def damage_multiplier(self):  # Randomize attack strength
-        damage_multiplier = random.choice(
-            [0, 0.5, 0.5, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1.5, 1.5, 2]
-        )
+    def weapon_menu(self):
+        weapons = {}
+        index = 1
+        for weapon_name, weapon in items.weapons.items():
+            if self.inventory.has_item(weapon_name):
+                weapons[index] = weapon        
+                print(f"{index}: {weapon.name} (+{weapon.damage})")
+                index += 1
+        if weapons == {}:
+            print("Keine Waffen im Inventar.")
+        if self.player.weapon is not None:
+            print(f"{index}: Waffe weglegen")
+            index += 1
+        print(f"{index}: Zurück")
+        choice = input("Deine Wahl: ")
+        if not choice.isdigit():
+            print("Ungültige Auswahl!")
+            time.sleep(1)
+            return self.weapon_menu()
+        choice = int(choice)
+        if choice in weapons:
+            weapon = weapons[choice]
+            if self.player.weapon is not None:
+                self.inventory.add_item(self.player.weapon, 1)
+            self.player.use_weapon(weapon.name, weapon.damage)
+            self.inventory.remove_item(weapon.name, 1)
+            slow_print(
+                "Erzähler",
+                f"{self.player.name} rüstet {weapon.name} aus! Angriff +{weapon.damage}.\n",
+                resume="",
+            )
+        elif choice == index - 1 and self.player.weapon is not None:
+            self.inventory.add_item(self.player.weapon, 1)
+            old_weapon = self.player.weapon
+            self.player.weapon = None
+            self.player.weapon_attack = 0
+            slow_print(
+                "Erzähler",
+                f"{self.player.name} legt {old_weapon} weg.\n",
+                resume="",
+            )
+        elif choice == index:
+            return "back"
+        else:
+            print("Ungültige Auswahl!")
+            time.sleep(1)
+            return self.weapon_menu()
+        
+
+    def damage_multiplier(self, multiplier):  # Randomize attack strength
+        damage_multiplier = random.choice(multiplier)
         match damage_multiplier:
             case 0:
-                slow_print("Erzähler", "Verfehlt!\n", sleep=2, resume="")
+                slow_print("Erzähler", "Verfehlt!\n\n", sleep=2, resume="")
             case 0.5:
                 slow_print(
                     "Erzähler",
@@ -49,12 +99,12 @@ class Combat:
     def player_attack(self):  # Calculate and deal player damage
         self.player.deal_damage(
             self.enemy,
-            int((self.player.attack + self.player.weapon_attack) * self.damage_multiplier()),
+            int((self.player.attack + self.player.weapon_attack) * self.damage_multiplier(self.multiplier[1] if self.player.weapon is not None else self.multiplier[0])),
         )
 
     def enemy_attack(self):  # Calculate and deal enemy damage
         self.enemy.deal_damage(
-            self.player, int(self.enemy.attack * self.damage_multiplier())
+            self.player, int(self.enemy.attack * self.damage_multiplier(self.multiplier[0]))
         )
 
     def fight_intro(self):  # Show fight intro animation
@@ -83,7 +133,7 @@ class Combat:
                 match choose_potion:
                     case "1":
                         if self.inventory.has_item("Kleiner Heiltrank"):
-                            self.player.heal(30)
+                            self.player.heal(items.item_dict["Kleiner Heiltrank"].heal)
                             self.inventory.remove_item("Kleiner Heiltrank", 1)
                         else:
                             print("Ungültige Auswahl!")
@@ -91,7 +141,7 @@ class Combat:
                             self.player_turn()
                     case "2":
                         if self.inventory.has_item("Großer Heiltrank"):
-                            self.player.heal(60)
+                            self.player.heal(items.item_dict["Großer Heiltrank"].heal)
                             self.inventory.remove_item("Großer Heiltrank", 1)
                         else:
                             print("Ungültige Auswahl!")
@@ -104,6 +154,9 @@ class Combat:
                         time.sleep(1)
                         self.player_turn()
             case "3":
+                if self.weapon_menu() == "back":
+                    self.player_turn()
+            case "4":
                 slow_print("Erzähler", f"{self.player.name} flieht aus dem Kampf!")
                 return "end_of_fight"
             case _:
@@ -157,7 +210,7 @@ class Combat:
             time.sleep(3)
             if start == "player":
                 if self.player_turn() == "end_of_fight":
-                    return
+                    return "fled"
                 self.enemy_turn()
             else:
                 self.enemy_turn()
@@ -165,19 +218,23 @@ class Combat:
                     clear_screen()
                     self.status()
                     if self.player_turn() == "end_of_fight":
-                        return
+                        return "fled"
                 else:
                     return
 
 
 # Test code - only runs when this file is executed directly
-# if __name__ == "__main__":
-#     player = Player("Kevin", 100, 10)
-#     enemy = Enemy("Goblin", 50, 25)
-#     inventory = Inventory()
-#     inventory.add_item("Kleiner Heiltrank", 3)
-#     combat = Combat(player, enemy, inventory)
-#     combat.fight()
-#     enemy = Enemy("Wolf", 35, 10, 6)
-#     combat = Combat(player, enemy, inventory)
-#     combat.fight()
+""" if __name__ == "__main__":
+    player = Player("Kevin", 100, 10)
+    enemy = Enemy("Goblin", 50, 25)
+    inventory = Inventory()
+    inventory.add_item("Kleiner Heiltrank", 3)
+    inventory.add_item("Großer Heiltrank", 1)
+    inventory.add_item("Holzaxt", 1)
+    inventory.add_item("Holzschwert", 1)
+    inventory.add_item("Kleiner Heiltrank", 3)
+    combat = Combat(player, enemy, inventory)
+    combat.fight()
+    enemy = Enemy("Wolf", 35, 10, 6)
+    combat = Combat(player, enemy, inventory)
+    combat.fight() """
