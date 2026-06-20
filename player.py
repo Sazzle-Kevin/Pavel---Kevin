@@ -2,7 +2,7 @@ from text import slow_print, clear
 
 
 class Player:
-    def __init__(self, name, health, attack):
+    def __init__(self, name, health, attack, location=None):
         self.name = name
         self.health = health
         self.max_health = health
@@ -11,7 +11,7 @@ class Player:
         self.weapon_attack = 0
         self.level = 1
         self.xp = 0
-        self.location = None
+        self.location = location
 
     def __str__(self):
         return f"{self.name}: Health={self.health}/{self.max_health}, Attack={self.attack+self.weapon_attack}, Level={self.level}, XP={self.xp}/{self.level*25}"

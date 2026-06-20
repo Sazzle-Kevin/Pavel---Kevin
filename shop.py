@@ -25,12 +25,11 @@ class Shop:
     def kaufen(self, inventory):
         while True:
             clear_screen()
-            slow_print(
-                "Verkäufer", "Was hätten Sie gerne? V zum verlassen.\n", resume=""
-            )
+            slow_print("Verkäufer", "Was hätten Sie gerne?\n", resume="")
 
-            for item in self.items.keys():
-                print(item)
+            for item, quantity in self.items.items():
+                print(item + " x", quantity)
+            print("-- V zum Verlassen --")
 
             inp = input().title()
             clear_screen()
@@ -62,6 +61,7 @@ class Shop:
             )
 
             print(inventory)
+            print("-- V zum Verlassen --")
 
             inp = input().title()
             clear_screen()

@@ -6,7 +6,6 @@ import time
 import random
 import strings
 import world_map
-import world_map
 import location
 import combat
 import items
@@ -51,16 +50,27 @@ class UserInterface:
 
     # # # # # # # # # # # # # # # # Look around # # # # # # # # # # # # # # # #
     def umschauen(self):
-        local = player.location
-
-        if local.events:
-            slow_print("Erzähler", random.choice(local.events))
+        if player.location == location.unlock_cities.head.city:
+            slow_print(
+                "Erzähler",
+                "Der Verkäufer sieht aus, als würde er sich auf einen Kampf vorbereiten...",
+            )
         else:
-            slow_print("Erzähler", local.description)
+            slow_print("Erzähler", player.location.description)
 
     # # # # # # # # # # # # # # # # Shop # # # # # # # # # # # # # # # #
     def laden(self):
         self.current = "Laden"
+        if player.location == location.unlock_cities.head.city:
+            slow_print("Verkäufer", "Ich habe schon auf dich gewartet!!")
+            self.kampf(location.spawn_shopkeeper)
+            if self.current == "Laden":
+                worldmap.add_city(player.location)
+                location.unlock_cities.head = location.unlock_cities.head.next
+                slow_print(
+                    "Verkäufer",
+                    f"Wow, was ein Kampf! (Der Verkäufer erzählt dir von {location.unlock_cities.head.city.name})",
+                )
 
     def kaufen(self):
         global inventory
@@ -71,29 +81,38 @@ class UserInterface:
         inventory = town_shop.verkaufen(inventory)
 
     def fragen(self):
-        town_shop.fragen()
+        town_shop.fragen(player.location.name, worldmap)
 
     def verlassen(self):
         self.current = "Neutral"
 
     # # # # # # # # # # # # # # # # World Map # # # # # # # # # # # # # # # #
     def karte(self):
-        self.current = "Karte"
-        print("Wohin möchtest du reisen? V zum verlassen.")
+        while True:
+            slow_print("Erzähler", "Wohin möchtest du reisen?", resume="")
+            print("\nStadt  |  Route\n")
+            worldmap.print(player.location)
+            inp = input().title()
 
-    def wegstecken(self):
-        self.current = "Neutral"
+            if inp == "V":
+                self.current = "Neutral"
+                return
 
-    def ziel(self, location):
-        self.reisen()
+            for city in worldmap.locations[player.location]:
+                if inp == city.name:
+                    self.ziel(city)
+                    return
+
+    def ziel(self, city):
+        self.current = worldmap.locations[player.location][city]
+        self.reisen(city)
         self.current = "Neutral"
-        player.location = location
 
     # # # # # # # # # # # # # # # # Reisen # # # # # # # # # # # # # # # #
 
-    def reisen(self):
+    def reisen(self, city):
         clear_screen()
-        route = random.choice(location.routes)
+        route = self.current
         town_shop.new_items()
         slow_print(
             "Erzähler",
@@ -107,7 +126,7 @@ class UserInterface:
         time.sleep(1)
         if random.randint(1, 10) >= 8:
             slow_print("Erzähler", random.choice(strings.reise_battle), delay=0.03)
-            self.kampf(route)
+            self.kampf(random.choice(route.enemies))
         else:
             slow_print("Erzähler", random.choice(strings.reise_no_battle))
 
@@ -134,7 +153,7 @@ class UserInterface:
                 inventory.add_item(loot.name)
             else:
                 slow_print("Erzähler", "Oh nein, ein Überfall!")
-                self.kampf(route)
+                self.kampf(random.choice(route.enemies))
         else:
             slow_print("Erzähler", "Du gehst weiter. Eiskalt.")
 
@@ -148,15 +167,18 @@ class UserInterface:
         clear_screen()
         time.sleep(1)
         if random.randint(1, 10) >= 8:
-            slow_print("Erzähler", random.choice(strings.reise_battle), delay=0.03)
-            self.kampf(route)
+            slow_print("Erzähler", random.choice(strings.reise_battle))
+            self.kampf(random.choice(route.enemies))
         else:
             slow_print("Erzähler", random.choice(strings.reise_no_battle))
 
+        player.location = city
+        slow_print("Erzähler", city.name.upper().center(40))
+
     # # # # # # # # # # # # # # # # Kampf # # # # # # # # # # # # # # # #
 
-    def kampf(self, route):
-        enemy = random.choice(route.enemies)()
+    def kampf(self, enemy):
+        enemy = enemy()
         battle = combat.Combat(player, enemy, inventory)
 
         battle.fight()
@@ -169,7 +191,7 @@ class UserInterface:
 # player = strings.intro()
 
 # strings.game_start()
-player = Player("Bob", 100, 10)  ### Intro überspringen
+player = Player("Bob", 100, 10, location=location.village)  ### Intro überspringen
 clear_screen()
 
 
@@ -179,7 +201,7 @@ clear_screen()
 inventory = Inventory()
 town_shop = Shop()
 
-worldmap = world_map.WorldMap()
+worldmap = location.WorldMap()
 ui = UserInterface()
 options = {
     "Neutral": {
@@ -195,7 +217,7 @@ options = {
         "Fragen": ui.fragen,
         "Verlassen": ui.verlassen,
     },
-    "Karte": {x.name: lambda loc=x: ui.ziel(loc) for x in worldmap.locations},
+    "Karte": {},
 }
 
 ################################################################################
@@ -205,10 +227,12 @@ options = {
 
 def run_game():
     clear_screen()
-    print(" - ".join(options[ui.current]), "\n")
+    print(" - ".join(options[ui.current]), "- V" "\n")
 
     player_input = input().title()
-    if player_input in options[ui.current]:
+    if player_input == "V":
+        ui.current = "Neutral"
+    elif player_input in options[ui.current]:
         options[ui.current][player_input]()
     else:
         print(f"{player_input} konnte nicht ausgeführt werden.")
