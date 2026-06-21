@@ -105,7 +105,7 @@ class Shop:
             if inp in inventory.inventory:
                 slow_print(
                     "Verkäufer",
-                    "Hier sind ihre 0 Dino Nuggets (Wir haben noch kein Geld^^)",
+                    "Hier sind Ihre 0 Dino Nuggets (Wir haben noch kein Geld^^)",
                 )
                 inventory.remove_item(inp)
 
@@ -118,10 +118,10 @@ class Shop:
 
 random_antworten = [
     " seitdem meine Frau laktoseintolerant ist.",
-    " seitdem ich hungig bin.",
+    " seitdem ich hungrig bin.",
     " seit Mitte August.",
     " seitdem ich weiß, dass es keine Drachen gibt...",
-    " seitdem... seit... Guten Tag junger Abenteurer!\n Wie kann ich behilflich sein?",
+    " seitdem... seit... Guten Tag, junger Abenteurer!\nWie kann ich behilflich sein?",
     " seitdem Herbert meine Jackpot Bingo Karte gegessen hat.",
     " seitdem Döner mehr als 5 Gold kostet.",
     " seit es gestern regnete.",

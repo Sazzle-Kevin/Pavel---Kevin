@@ -13,8 +13,8 @@ class WorldMap:
 
     def __init__(self):
         self.locations = {
-            village: {monda: forrest},
-            monda: {village: forrest},
+            village: {monda: forest},
+            monda: {village: forest},
             sollum: {},
             castle: {},
         }
@@ -146,7 +146,7 @@ monda = Location(
 ## Stadt 2 ##
 sollum = Location(
     "Sollum",
-    "Die Häußer ragen bis in die Wolken!",
+    "Die Häuser ragen bis in die Wolken!",
     city=True,
 )
 
@@ -164,7 +164,7 @@ cities = [village, monda, sollum, castle]
 ################################################################################
 
 ## Wald ##
-forrest = Location(
+forest = Location(
     "Wald",
     "Ein dichter Wald voller Geräusche.",
     events=[
@@ -198,14 +198,14 @@ dark_moor = Location(
     events=[
         "Im Schlamm funkelt etwas.",
         "Hinter einem toten Baum verbirgt sich etwas.",
-        "Hey, pass auf wo du hintrittst!",
+        "Hey, pass auf, wo du hintrittst!",
         "Du merkst etwas unter deinem Schuh.",
     ],
     enemies=[spawn_vampire, spawn_goblin],
     rare_encounter=spawn_corrupted_syntax,
 )
 
-routes = [forrest, cave, dark_moor]
+routes = [forest, cave, dark_moor]
 
 ################################################################################
 #                              STÄDTE FREISCHALTEN                             #

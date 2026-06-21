@@ -37,7 +37,7 @@ class UserInterface:
                 self.state = "Neutral"
                 return
             else:
-                print(f"V wird anders geschrieben, nicht {inp}")
+                print(f"V wird anders geschrieben, nicht {inp}.")
                 time.sleep(2)
 
     # # # # # # # # # # # # # # # # Inventory # # # # # # # # # # # # # # # #
@@ -154,7 +154,7 @@ class UserInterface:
         else:
             slow_print("Erzähler", random.choice(strings.reise_no_battle))
 
-        slow_print("Erzähler", "Weiter gehts!")
+        slow_print("Erzähler", "Weiter geht's!")
         clear_screen()
         time.sleep(1)
 
@@ -192,9 +192,9 @@ class UserInterface:
                 inventory.add_item(items.bratwurst.name)
                 break
             else:
-                slow_print("Erzähler", f"Falscher Input: {inp}")
+                slow_print("Erzähler", f"Ungültige Eingabe: {inp}")
 
-        slow_print("Erzähler", "Weiter gehts!")
+        slow_print("Erzähler", "Weiter geht's!")
         time.sleep(1)
 
         ### Letzte Kampfmöglichkeit ###
