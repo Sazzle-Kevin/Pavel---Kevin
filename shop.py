@@ -5,6 +5,7 @@
 import random
 import items
 import time
+import location
 from text import slow_print, clear_screen
 
 ################################################################################
@@ -16,8 +17,10 @@ class Shop:
 
     def __init__(self):
         self.items = {"Kleiner Heiltrank": 1}
+        next_city = False
 
     def new_items(self):
+        self.items = {}
         for _ in range(3):
             chosen = random.choice(items.shop_items)
             self.items[chosen.name] = self.items.get(chosen.name, 0) + 1
@@ -29,7 +32,7 @@ class Shop:
 
             for item, quantity in self.items.items():
                 print(item + " x", quantity)
-            print("-- V zum Verlassen --")
+            print("\n-- V zum Verlassen --\n\n\n")
 
             inp = input().title()
             clear_screen()
@@ -40,12 +43,43 @@ class Shop:
                 return inventory
 
             if inp in self.items:
-                slow_print("Verkäufer", f"1x {inp}? Sehr gerne!")
-                inventory.add_item(inp)
                 if self.items[inp] > 1:
-                    self.items[inp] -= 1
+                    while True:
+                        slow_print(
+                            "Verkäufer",
+                            f"Wie viele hätten Sie gerne? Ich habe {self.items[inp]} Stück.\n",
+                            resume="",
+                        )
+                        print("\n-- V zum Verlassen --\n\n\n")
+                        new_inp = input().title()
+                        clear_screen()
+
+                        if new_inp == "V":
+                            clear_screen()
+                            break
+                        if new_inp.isdigit() and self.items[inp] >= int(new_inp):
+                            slow_print("Verkäufer", f"{new_inp}x {inp}? Sehr gerne!\n")
+
+                            for _ in range(int(new_inp)):
+                                inventory.add_item(inp)
+                            if self.items[inp] > int(new_inp):
+                                self.items[inp] -= int(new_inp)
+                            else:
+                                self.items.pop(inp)
+                            clear_screen()
+                            break
+                        else:
+                            slow_print(
+                                "Verkäufer", f"{new_inp} haben wir leider nicht mehr."
+                            )
+                        clear_screen()
                 else:
-                    self.items.pop(inp)
+                    slow_print("Verkäufer", f"1x {inp}? Sehr gerne!")
+                    inventory.add_item(inp)
+                    if self.items[inp] > 1:
+                        self.items[inp] -= 1
+                    else:
+                        self.items.pop(inp)
             else:
                 slow_print(
                     "Verkäufer",
@@ -56,12 +90,10 @@ class Shop:
     def verkaufen(self, inventory):
         while True:
             clear_screen()
-            slow_print(
-                "Verkäufer", "Was möchten Sie verkaufen? V zum Verlassen\n", resume=""
-            )
+            slow_print("Verkäufer", "Was möchten Sie verkaufen?\n", resume="")
 
             print(inventory)
-            print("-- V zum Verlassen --")
+            print("\n-- V zum Verlassen --\n\n\n")
 
             inp = input().title()
             clear_screen()

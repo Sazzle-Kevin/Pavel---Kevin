@@ -5,7 +5,6 @@
 import time
 import random
 import strings
-import world_map
 import location
 import combat
 import items
@@ -32,9 +31,12 @@ class UserInterface:
     def tasche_benutzen(self, char, inventory):
         while True:
             clear_screen()
-            print("Welchen Gegenstand willst du benutzen? V zum zurückkehren\n")
+            slow_print(
+                "Erzähler", "Welchen Gegenstand willst du benutzen?\n\n", resume=""
+            )
 
-            print(inventory)
+            print(inventory, "\n\n")
+            print("-- V zum Verlassen --\n\n\n")
 
             inp = input().title()
 
@@ -61,16 +63,6 @@ class UserInterface:
     # # # # # # # # # # # # # # # # Shop # # # # # # # # # # # # # # # #
     def laden(self):
         self.current = "Laden"
-        if player.location == location.unlock_cities.head.city:
-            slow_print("Verkäufer", "Ich habe schon auf dich gewartet!!")
-            self.kampf(location.spawn_shopkeeper)
-            if self.current == "Laden":
-                worldmap.add_city(player.location)
-                location.unlock_cities.head = location.unlock_cities.head.next
-                slow_print(
-                    "Verkäufer",
-                    f"Wow, was ein Kampf! (Der Verkäufer erzählt dir von {location.unlock_cities.head.city.name})",
-                )
 
     def kaufen(self):
         global inventory
@@ -81,7 +73,18 @@ class UserInterface:
         inventory = town_shop.verkaufen(inventory)
 
     def fragen(self):
-        town_shop.fragen(player.location.name, worldmap)
+        if player.location == location.unlock_cities.head.city:
+            slow_print("Verkäufer", "Zeig mir, was du drauf hast!")
+            self.kampf(location.spawn_shopkeeper)
+            if player.is_alive():
+                slow_print(
+                    "Verkäufer",
+                    f"Ok, ok.. Du hast einiges drauf. Also, die nächste Stadt.. (Er erzählt dir von {location.unlock_cities.head.next.city.name})",
+                )
+                worldmap.add_city(player.location)
+                location.unlock_cities.head = location.unlock_cities.head.next
+        else:
+            town_shop.fragen()
 
     def verlassen(self):
         self.current = "Neutral"
@@ -89,8 +92,8 @@ class UserInterface:
     # # # # # # # # # # # # # # # # World Map # # # # # # # # # # # # # # # #
     def karte(self):
         while True:
-            slow_print("Erzähler", "Wohin möchtest du reisen?", resume="")
-            print("\nStadt  |  Route\n")
+            slow_print("Erzähler", "Wohin möchtest du reisen?\n", resume="")
+            print("Stadt  |  Route\n")
             worldmap.print(player.location)
             inp = input().title()
 
@@ -138,24 +141,29 @@ class UserInterface:
 
         ## Mitte der Reise - Event ##
         slow_print("Erzähler", random.choice(route.events))
-        print("Möchtest du nachschauen? - ja/j oder nein/n")
-        inp = input().lower()
-        clear_screen()
-        if inp in ["ja", "j"]:
-            time.sleep(1)
-            slow_print("Erzähler", "Du sammelst deinen Mut und...")
-            chance = random.randint(1, 10)
+        while True:
+            print("Möchtest du nachschauen? - ja/j oder nein/n\n\n\n")
+            inp = input().lower()
             clear_screen()
-            time.sleep(1)
-            if chance >= 7:
-                loot = random.choice(items.event_items)
-                slow_print("Erzähler", f"Nice! 1x {loot.name} gefunden!")
-                inventory.add_item(loot.name)
+            if inp in ["ja", "j"]:
+                time.sleep(1)
+                slow_print("Erzähler", "Du sammelst deinen Mut...")
+                chance = random.randint(1, 10)
+                clear_screen()
+                time.sleep(1)
+                if chance >= 7:
+                    loot = random.choice(items.event_items)
+                    slow_print("Erzähler", f"Nice! 1x {loot.name} gefunden!")
+                    inventory.add_item(loot.name)
+                else:
+                    slow_print("Erzähler", "Oh nein, ein Überfall!")
+                    self.kampf(random.choice(route.enemies))
+                break
+            elif inp in ["nein", "n"]:
+                slow_print("Erzähler", "Du gehst weiter. Eiskalt.")
+                break
             else:
-                slow_print("Erzähler", "Oh nein, ein Überfall!")
-                self.kampf(random.choice(route.enemies))
-        else:
-            slow_print("Erzähler", "Du gehst weiter. Eiskalt.")
+                slow_print("Erzähler", f"Falscher Input: {inp}")
 
         clear_screen()
         time.sleep(1)
@@ -163,7 +171,7 @@ class UserInterface:
         time.sleep(1)
 
         ### Letzte Kampfmöglichkeit ###
-        slow_print("Erzähler", "Ich spüre etwas...")
+        slow_print("Erzähler", "Du spürst etwas...")
         clear_screen()
         time.sleep(1)
         if random.randint(1, 10) >= 8:
@@ -171,9 +179,21 @@ class UserInterface:
             self.kampf(random.choice(route.enemies))
         else:
             slow_print("Erzähler", random.choice(strings.reise_no_battle))
+        clear_screen()
+        time.sleep(1)
 
         player.location = city
-        slow_print("Erzähler", city.name.upper().center(40))
+        if city != location.castle:
+            slow_print("Erzähler", "Du hast dein Ziel erreicht!")
+            slow_print("", city.name.upper().center(40))
+        else:
+            slow_print("Erzähler", "Du erreichst das Schloss.")
+            slow_print("", city.name.upper().center(40), delay=0.1)
+            strings.boss()
+            self.kampf(location.spawn_vampire_lord)
+
+            if player.is_alive():
+                strings.outro(player)
 
     # # # # # # # # # # # # # # # # Kampf # # # # # # # # # # # # # # # #
 
@@ -227,7 +247,7 @@ options = {
 
 def run_game():
     clear_screen()
-    print(" - ".join(options[ui.current]), "- V" "\n")
+    print(" - ".join(options[ui.current]), "\n\n\n")
 
     player_input = input().title()
     if player_input == "V":

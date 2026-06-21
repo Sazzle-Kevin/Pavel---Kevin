@@ -102,3 +102,92 @@ reise_no_battle = [
     "Ein blauer Pilz neben einem roten Pilz.",
     "Eine frische Brise.",
 ]
+
+# # # # # # # # # # # # # # # # Boss Strings # # # # # # # # # # # # # # # #
+
+
+def boss():
+    slow_print("Erzähler", "...", delay=1)
+    slow_print("Erzähler", "Du betrittst das Schloss.")
+    slow_print(
+        "Erzähler", "Du merkst, wie eine unheilvolle Finsternis dich umschließt!"
+    )
+    slow_print(
+        "Erzähler",
+        "Deine Sicht schwindet. Flüsternde Stimmen sprechen zu dir, bitten dich um Hilfe... bitten dich, ihnen die Freiheit zu gewähren.",
+    )
+    slow_print(
+        "Erzähler",
+        "Das riesige, modrige Holztor schlägt hinter dir zu. Du stehst in vollkommener Dunkelheit.",
+    )
+    clear_screen()
+    time.sleep(2)
+
+    slow_print("Erzähler", "Die Stimmen verstummen.")
+    slow_print("Erzähler", "Im ganzen Raum glimmern kleine Punkte auf.")
+    slow_print(
+        "Erzähler",
+        "Wie aus dem Nichts entzünden sich blau lodernde Kerzen. Die Flammen peitschen wild empor und tauchen den Saal in ein gleißendes Licht!",
+    )
+    slow_print("Erzähler", "Am Ende des Raumes sitzt jemand auf dem Thron.")
+    slow_print(
+        "Erzähler",
+        "Zwei unheilvoll grün leuchtende Augen durchbohren dich mit ihrem Blick.",
+    )
+    slow_print(
+        "Erzähler",
+        "Neben der finsteren Gestalt siehst du noch jemanden in Ketten sitzen.",
+    )
+    slow_print(
+        "Prinzessin Nix Die Code",
+        "Bitte Held, rette mich! Ich bin eine entführte Prinzessin!",
+    )
+    slow_print(
+        "Erzähler",
+        "Das war der Moment, auf den jeder Held wartet. Doch bevor du handeln kannst, erhebt sich eine weitere Stimme.",
+    )
+    clear_screen()
+    time.sleep(1)
+    slow_print(
+        "Vampir Lord Byte von Code",
+        "Ich habe schon von einem Helden gehört, der auf dem Weg sein soll, um mich zu besiegen.",
+    )
+    slow_print(
+        "Vampir Lord Byte von Code", "So früh habe ich dich jedoch nicht erwartet..."
+    )
+    slow_print("Vampir Lord Byte von Code", "Ich bin beeindruckt.")
+    slow_print(
+        "Vampir Lord Byte von Code",
+        "Ein Held, würdig des Auftrages, die Prinzessin zu befreien.",
+    )
+    slow_print(
+        "Vampir Lord Byte von Code",
+        "Doch Mut allein reicht nicht. Besitzt du die Stärke, die nötig ist, um dich mir entgegenzustellen?",
+    )
+    slow_print("Vampir Lord Byte von Code", "Zeig es mir!")
+
+
+# # # # # # # # # # # # # # # # Outro # # # # # # # # # # # # # # # #
+
+
+def outro(char):
+    slow_print(
+        "Erzähler",
+        f"Und so besiegte {char.name} den gefürchteten Vampir Lord Byte von Code.",
+    )
+    slow_print("Prinzessin Nix Die Code", "Du.. hast mich gerettet. 👁️👄👁️")
+    slow_print(
+        "Erzähler",
+        "Und so machten sich die Prinzessin und der Held auf den Weg zurück.",
+    )
+    slow_print(
+        "Erzähler",
+        "Sie lebten von dort an glücklich zusammen und der Held vollbrachte noch viele Heldentaten.",
+    )
+    slow_print("Erzähler", "ENDE")
+
+    slow_print("", "Danke fürs Spielen!".center(40), delay=0.1)
+    while True:
+        clear_screen()
+        print("Danke fürs Spielen!".center(40))
+        time.sleep(5)

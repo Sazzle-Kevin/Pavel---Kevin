@@ -38,7 +38,7 @@ class Weapon(Items):
         weapons[self.name] = self
 
     def use(self, char, inventory):
-        char.use_weapon(self.damage)
+        char.use_weapon(self.name, self.damage)
         inventory.remove_item(self.name)
 
 

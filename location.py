@@ -13,16 +13,14 @@ class WorldMap:
 
     def __init__(self):
         self.locations = {
-            village: {},
-            monda: {},
+            village: {monda: forrest},
+            monda: {village: forrest},
             sollum: {},
             castle: {},
         }
 
     def add_city(self, city):
-        if city == village:
-            self.locations[monda][village] = self.locations[village][monda] = forrest
-        elif city == monda:
+        if city == monda:
             self.locations[sollum][monda] = self.locations[monda][sollum] = cave
             self.locations[sollum][village] = self.locations[village][sollum] = cave
         elif city == sollum:
@@ -35,7 +33,7 @@ class WorldMap:
     def print(self, current):
         for location, distance in self.locations[current].items():
             print(f"{location.name}:     {distance.name}")
-        print("\nV zum Verlassen")
+        print("\n\n-- V zum Verlassen --\n\n\n")
 
 
 ################################################################################
@@ -196,7 +194,7 @@ cave = Location(
 ## Finstermoor ##
 dark_moor = Location(
     "Finstermoor",
-    "Deine Stiefel geben nach im Moor. Totes Land, schwarze Gewässer und lauernden Schatten",
+    "Deine Stiefel geben nach im Moor. Totes Land, schwarze Gewässer und lauernde Schatten",
     events=[
         "Im Schlamm funkelt etwas.",
         "Hinter einem toten Baum verbirgt sich etwas.",
@@ -239,5 +237,5 @@ class Unlocks:
 
 unlock_cities = Unlocks()
 
-for city in cities:
+for city in cities[1:]:
     unlock_cities.append(city)
