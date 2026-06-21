@@ -18,7 +18,7 @@ class Items:
 
 class Potion(Items):
 
-    def __init__(self, name: str, value: int, heal: int, use=True):
+    def __init__(self, name: str, value: int, heal: int):
         super().__init__(name, value)
         self.heal = heal
 
@@ -31,7 +31,7 @@ class Potion(Items):
 
 class Weapon(Items):
 
-    def __init__(self, name: str, value: int, damage: int, use=True):
+    def __init__(self, name: str, value: int, damage: int):
         super().__init__(name, value)
         self.damage = damage
 
@@ -57,7 +57,7 @@ big_potion = Potion("Großer Heiltrank", 10, 60)
 # # # # # # # # # # # # # # # # Weapons # # # # # # # # # # # # # # # #
 wood_axe = Weapon("Holzaxt", 20, 7)
 wood_sword = Weapon("Holzschwert", 20, 7)
-super_boom = Weapon("Superboom", 1001, float("inf"))
+bratwurst = Weapon("Braht D. Wuhurst", 67, 9001)
 
 
 ################################################################################
@@ -96,4 +96,5 @@ item_dict = {
     "Großer Heiltrank": big_potion,
     "Holzaxt": wood_axe,
     "Holzschwert": wood_sword,
+    "Braht D. Wuhurst": bratwurst,
 }

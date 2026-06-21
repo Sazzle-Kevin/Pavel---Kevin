@@ -12,9 +12,16 @@ class Combat:
         self.player = player
         self.enemy = enemy
         self.inventory = inventory
-        self.menu = {"1": "Angreifen", "2": "Heiltrank benutzen", "3": "Waffe ausrüsten", "4": "Fliehen"}
-        self.multiplier = [[0, 0.5, 0.5, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1.5, 1.5, 2],
-                           [0.5, 1, 1, 1, 1, 1, 1, 1.5, 1.5, 2]]
+        self.menu = {
+            "1": "Angreifen",
+            "2": "Heiltrank benutzen",
+            "3": "Waffe ausrüsten",
+            "4": "Fliehen",
+        }
+        self.multiplier = [
+            [0, 0.5, 0.5, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1.5, 1.5, 2],
+            [0.5, 1, 1, 1, 1, 1, 1, 1.5, 1.5, 2],
+        ]
 
     def combat_menu(self):  # Show combat menu
         for key, value in self.menu.items():
@@ -32,7 +39,7 @@ class Combat:
         index = 1
         for weapon_name, weapon in items.weapons.items():
             if self.inventory.has_item(weapon_name):
-                weapons[index] = weapon        
+                weapons[index] = weapon
                 print(f"{index}: {weapon.name} (+{weapon.damage})")
                 index += 1
         if weapons == {}:
@@ -74,7 +81,6 @@ class Combat:
             print("Ungültige Auswahl!")
             time.sleep(1)
             return self.weapon_menu()
-        
 
     def damage_multiplier(self, multiplier):  # Randomize attack strength
         damage_multiplier = random.choice(multiplier)
@@ -99,12 +105,20 @@ class Combat:
     def player_attack(self):  # Calculate and deal player damage
         self.player.deal_damage(
             self.enemy,
-            int((self.player.attack + self.player.weapon_attack) * self.damage_multiplier(self.multiplier[1] if self.player.weapon is not None else self.multiplier[0])),
+            int(
+                (self.player.attack + self.player.weapon_attack)
+                * self.damage_multiplier(
+                    self.multiplier[1]
+                    if self.player.weapon is not None
+                    else self.multiplier[0]
+                )
+            ),
         )
 
     def enemy_attack(self):  # Calculate and deal enemy damage
         self.enemy.deal_damage(
-            self.player, int(self.enemy.attack * self.damage_multiplier(self.multiplier[0]))
+            self.player,
+            int(self.enemy.attack * self.damage_multiplier(self.multiplier[0])),
         )
 
     def fight_intro(self):  # Show fight intro animation
@@ -183,13 +197,10 @@ class Combat:
         if self.player.weapon:
             print(
                 " " * (len(self.player.name) + 1),
-                f"Waffe: {self.player.weapon} (+{self.player.weapon_attack})"
+                f"Waffe: {self.player.weapon} (+{self.player.weapon_attack})",
             )
         else:
-            print(
-                " " * (len(self.player.name) + 1),
-                "Waffe: Keine"
-            )
+            print(" " * (len(self.player.name) + 1), "Waffe: Keine")
         print(
             " " * (len(self.player.name) + 1),
             "Kleiner Heiltrank: ",

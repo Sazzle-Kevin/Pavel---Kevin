@@ -42,7 +42,7 @@ class Shop:
                 time.sleep(1)
                 return inventory
 
-            if inp in self.items:
+            if inp in self.items:  # Item Quantity > 1
                 if self.items[inp] > 1:
                     while True:
                         slow_print(
@@ -73,7 +73,7 @@ class Shop:
                                 "Verkäufer", f"{new_inp} haben wir leider nicht mehr."
                             )
                         clear_screen()
-                else:
+                else:  # Item Quantity == 1
                     slow_print("Verkäufer", f"1x {inp}? Sehr gerne!")
                     inventory.add_item(inp)
                     if self.items[inp] > 1:

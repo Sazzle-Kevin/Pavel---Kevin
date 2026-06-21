@@ -37,6 +37,30 @@ class WorldMap:
 
 
 ################################################################################
+#                              KLASSE: LOCATION                                #
+################################################################################
+
+
+class Location:
+
+    def __init__(
+        self,
+        name,
+        description,
+        city=False,
+        events=None,
+        enemies=None,
+        rare_encounter=None,
+    ):
+        self.name = name
+        self.city = city
+        self.description = description
+        self.events = events if events else []
+        self.enemies = enemies
+        self.rare_encounter = rare_encounter
+
+
+################################################################################
 #                                 BASE GEGNER                                  #
 ################################################################################
 
@@ -99,30 +123,6 @@ def spawn_vampire_lord():
     return enemy.Enemy(
         "Vampir Lord Byte von Code", 1, 1, 1
     )  ############################ Stats noch ändern (Pavel) ####################################⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️
-
-
-################################################################################
-#                              KLASSE: LOCATION                                #
-################################################################################
-
-
-class Location:
-
-    def __init__(
-        self,
-        name,
-        description,
-        city=False,
-        events=None,
-        enemies=None,
-        rare_encounter=None,
-    ):
-        self.name = name
-        self.city = city
-        self.description = description
-        self.events = events if events else []
-        self.enemies = enemies
-        self.rare_encounter = rare_encounter
 
 
 ################################################################################
@@ -199,10 +199,10 @@ dark_moor = Location(
         "Im Schlamm funkelt etwas.",
         "Hinter einem toten Baum verbirgt sich etwas.",
         "Hey, pass auf wo du hintrittst!",
-        "Du merkst etwas in deinem Schuh.",
+        "Du merkst etwas unter deinem Schuh.",
     ],
     enemies=[spawn_vampire, spawn_goblin],
-    rare_encounter=spawn_cave_man,
+    rare_encounter=spawn_corrupted_syntax,
 )
 
 routes = [forrest, cave, dark_moor]

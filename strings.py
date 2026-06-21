@@ -14,46 +14,45 @@ from text import slow_print, clear, clear_screen
 
 
 def intro():
-    slow_print("Dorfbewohner", "Ich glaube, er wacht auf.", 2)
+    slow_print("Dorfbewohner", "Ich glaube, er wacht auf.")
     slow_print(
         "Dorfbewohner2",
-        "Er hat es wirklich geschafft! Er hat das legendäre Schwert Braht'wuhurst aus dem Stein gezogen!",
-        2,
+        "Er hat es fast geschafft! Er hat das legendäre Schwert Braht D. Wuhurst.. fast..  aus dem Stein gezogen!",
     )
-    slow_print("Dorfbewohner3", "Der Auserwählte!", 2),
-    slow_print("Dorfbewohner3", "  ...", 1, 1)
-    slow_print("Dorfbewohner", "Hallo?", 1.5)
-    slow_print("Dorfbewohner", "Kannst du uns hören?", 1.5)
+    slow_print("Dorfbewohner3", "Der Auserwählte!"),
+    slow_print("Dorfbewohner3", "  ...", 1)
+    slow_print("Dorfbewohner", "Hallo?")
+    slow_print("Dorfbewohner", "Kannst du uns hören?")
     slow_print("Dorfbewohner3", "Wie war nochmal sein Name?")
 
-    print("  Name: ", end="")
+    print("\n\n\nName: ", end="")
     player_name = input()
-    player = Player(player_name, 100, 10)
+    player = Player(player_name, 100, 10, location=location.village)
 
-    slow_print(f"Dorfbewohner", f"{player.name}!", 2)
+    slow_print(f"Dorfbewohner", f"{player.name}!")
     print(end="")
     clear_screen()
-    time.sleep(2)
+    time.sleep(1)
 
-    slow_print("Gott", "Und da stand er nun.", fresh=False)
+    slow_print("Erzähler", "Und da stand er nun.", fresh=False)
     slow_print(
-        "Gott",
+        "Erzähler",
         "Viele Dorfbewohner haben versucht das legendäre Schwert aus dem Stein zu ziehen.",
         fresh=False,
     )
     slow_print(
-        "Gott",
-        "Doch laut Prophezeiung sollte nur der Auserwählte, der ein reines Herz und einen gesunden Appetit in sich trägt, dazu in der Lage sein.",
+        "Erzähler",
+        "Doch laut Prophezeiung sollte nur der Auserwählte, der ein reines Herz und einen gesunden Appetit in sich trägt, Herr dieses Schwertes werden.",
         fresh=False,
     )
     slow_print(
-        "Gott",
+        "Erzähler",
         "Und so gelang jenes legendäre Schwert in die Hände eines Helden, dessen Ziel es war, die entführte Prinzessin zu retten!",
         fresh=False,
     )
 
     clear_screen()
-    time.sleep(1.5)
+    time.sleep(1)
     slow_print(
         "Erzähler",
         f"So begab sich {player.name} auf seinen Weg die Prinzessin zu befreien und ein echter Held zu werden!",
@@ -144,7 +143,7 @@ def boss():
     )
     slow_print(
         "Erzähler",
-        "Das war der Moment, auf den jeder Held wartet. Doch bevor du handeln kannst, erhebt sich eine weitere Stimme.",
+        "Das ist der Moment, auf den jeder Held wartet. Doch bevor du handeln kannst, erhebt sich eine weitere Stimme.",
     )
     clear_screen()
     time.sleep(1)
