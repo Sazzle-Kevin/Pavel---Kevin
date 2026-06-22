@@ -52,6 +52,7 @@ class Combat:
         if not choice.isdigit():
             print("Ungültige Auswahl!")
             time.sleep(1)
+            print()
             return self.weapon_menu()
         choice = int(choice)
         if choice in weapons:
@@ -80,6 +81,7 @@ class Combat:
         else:
             print("Ungültige Auswahl!")
             time.sleep(1)
+            print()
             return self.weapon_menu()
 
     def damage_multiplier(self, multiplier):  # Randomize attack strength
@@ -152,6 +154,7 @@ class Combat:
                         else:
                             print("Ungültige Auswahl!")
                             time.sleep(1)
+                            print()
                             self.player_turn()
                     case "2":
                         if self.inventory.has_item("Großer Heiltrank"):
@@ -160,15 +163,19 @@ class Combat:
                         else:
                             print("Ungültige Auswahl!")
                             time.sleep(1)
+                            print()
                             self.player_turn()
                     case "3":
+                        print()
                         self.player_turn()
                     case _:
                         print("Ungültige Auswahl!")
                         time.sleep(1)
+                        print()
                         self.player_turn()
             case "3":
                 if self.weapon_menu() == "back":
+                    print()
                     self.player_turn()
             case "4":
                 slow_print("Erzähler", f"{self.player.name} flieht aus dem Kampf!")
@@ -176,6 +183,7 @@ class Combat:
             case _:
                 print("Ungültige Auswahl!")
                 time.sleep(1)
+                print()
                 self.player_turn()
 
     def enemy_turn(self):  # Handle enemy's turn
