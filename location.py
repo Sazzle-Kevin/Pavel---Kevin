@@ -68,9 +68,8 @@ class Location:
 ########## Stadt - Gegner ##########
 def spawn_shopkeeper():
     return enemy.Enemy(
-        "Verkäufer", 1, 1, 1
-    )  ############################# Stats noch ändern (Pavel) ####################################⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️
-
+        "Verkäufer", 60, 25, 9
+    )  
 
 ########## Wald - Gegner ##########
 def spawn_wolf():
@@ -112,8 +111,8 @@ def spawn_goblin():
 # Rare #
 def spawn_corrupted_syntax():
     return enemy.Enemy(
-        "Korrumpierter Lord Synt von Ax", 1, 1, 1
-    )  ############################# Stats noch ändern (Pavel) ####################################⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️
+        "Korrumpierter Lord Synt von Ax", 95, 55, 16
+    )  
 
 
 ########## Schloss ##########
@@ -121,9 +120,8 @@ def spawn_corrupted_syntax():
 
 def spawn_vampire_lord():
     return enemy.Enemy(
-        "Vampir Lord Byte von Code", 1, 1, 1
-    )  ############################ Stats noch ändern (Pavel) ####################################⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️
-
+        "Vampir Lord Byte von Code", 160, 120, 20
+    )  
 
 ################################################################################
 #                                    STÄDTE                                    #

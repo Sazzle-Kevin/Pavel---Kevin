@@ -46,18 +46,19 @@ class Player:
 
     def get_xp(self, xp):
         self.xp += xp
-        slow_print("Erzähler", f"{self.name} erhält {xp} Erfahrungspunkte!", resume="")
-        sleep=1,
+        slow_print("Erzähler", f"{self.name} erhält {xp} Erfahrungspunkte!", resume="", sleep=1,)       
         self.level_up()
 
     def level_up(self):
         while self.xp >= self.level * 25:
             self.level += 1
             self.attack += 2
+            self.max_health += 10
+            self.health += 10
             self.xp -= (self.level - 1) * 25
             slow_print(
                 "Erzähler",
-                f"{self.name} wird stärker und erreicht Level {self.level}! Angriff +2.",
+                f"{self.name} wird stärker und erreicht Level {self.level}! Angriff +2, maximale Lebenspunkte +10.",
                 resume="",
                 sleep=1,
             )
