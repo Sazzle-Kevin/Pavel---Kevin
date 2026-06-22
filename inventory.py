@@ -4,8 +4,8 @@ class Inventory:
 
     def __str__(self):
         if not self.inventory:
-            return "Inventory is empty."
-        return "Inventory:\n" + "\n".join(
+            return "Das Inventar ist leer."
+        return "Inventar:\n" + "\n".join(
             f"{item}: {quantity}" for item, quantity in self.inventory.items()
         )
 
@@ -21,7 +21,7 @@ class Inventory:
             if self.inventory[item_name] == 0:
                 del self.inventory[item_name]
         else:
-            print(f"Not enough {item_name} in inventory.")
+            print(f"Nicht genug {item_name} im Inventar.")
 
     def get_inventory(self):
         return self.inventory
