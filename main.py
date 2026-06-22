@@ -195,6 +195,7 @@ class UserInterface:
                 slow_print("Erzähler", f"Ungültige Eingabe: {inp}")
 
         slow_print("Erzähler", "Weiter geht's!")
+        clear_screen()
         time.sleep(1)
 
         ### Letzte Kampfmöglichkeit ###
@@ -234,7 +235,11 @@ class UserInterface:
         enemy = enemy()
         battle = combat.Combat(player, enemy, inventory)
 
-        battle.fight()
+        outcome = battle.fight()
+
+        if outcome == "dead":
+            while True:
+                slow_print("", "YOU DIED", delay=0.5)
 
 
 ################################################################################
@@ -242,11 +247,11 @@ class UserInterface:
 ################################################################################
 
 clear_screen()
-# player = strings.intro()
-# strings.game_start()
+player = strings.intro()
+strings.game_start()
 
-player = Player("Bob", 100, 10, location=location.village)  ### Intro überspringen
-clear_screen()
+# player = Player("Bob", 100, 10, location=location.village)  ### Intro überspringen
+# clear_screen()
 
 
 ################################################################################
