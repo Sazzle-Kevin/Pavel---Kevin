@@ -231,6 +231,8 @@ class Combat:
                 if self.player_turn() == "end_of_fight":
                     return "fled"
                 self.enemy_turn()
+                if not self.player.is_alive():
+                    return "dead"
             else:
                 self.enemy_turn()
                 if self.player.is_alive():
@@ -239,7 +241,7 @@ class Combat:
                     if self.player_turn() == "end_of_fight":
                         return "fled"
                 else:
-                    return
+                    return "dead"
 
 
 # Test code - only runs when this file is executed directly
